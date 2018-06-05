@@ -1,0 +1,8 @@
+{
+  "name": "OrnitologiApp",
+  "app_id": "ecd3cc94",
+  "type": "ionic-angular",
+  "integrations": {
+    "cordova": {}
+  }
+}

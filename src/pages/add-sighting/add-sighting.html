@@ -1,0 +1,38 @@
+<!--
+  Generated template for the AddSightingPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Añadir avistamiento</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content padding>
+  <form (ngSubmit)="add()" #addSightingForm="ngForm">
+    <ion-row>
+      <ion-col>
+        <ion-list inset>
+          <ion-item>
+            <ion-label floating>Lugar de avistamiento</ion-label>
+            <ion-input type="text" name="place" [(ngModel)]="registerSighting.place" required></ion-input>
+          </ion-item>
+          <ion-item>
+            <p>Long: {{ long }},</p><p> Lat: {{ lat }}</p>
+          </ion-item>
+        </ion-list>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col>
+        <button ion-button class="submit-btn" full type="submit" [disabled]="!addSightingForm.form.valid">Añadir</button>
+      </ion-col>
+    </ion-row>
+  </form>
+
+</ion-content>

@@ -1,0 +1,21 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Lista de aves</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <ion-list>
+    <ion-item *ngFor="let bird of list" (click)='viewDetail(bird.id)'>
+        <ion-thumbnail item-start>
+          <img src="{{bird.bird_image }}">
+        </ion-thumbnail>
+         <h2>{{ bird.bird_name }}</h2>
+          <ion-badge *ngIf="bird.mine == 1" color="sightings" item-end>{{ bird.bird_sightings }}</ion-badge>
+          <ion-badge *ngIf="bird.mine == 0" color="no_sightings" item-end>{{ bird.bird_sightings }}</ion-badge>
+    </ion-item>
+  </ion-list>
+</ion-content>
