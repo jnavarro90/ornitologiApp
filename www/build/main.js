@@ -137,7 +137,7 @@ var AddSightingPage = /** @class */ (function () {
         this.registerSighting.idAve = this.bird_id;
         this.birds.addSighting(this.registerSighting).subscribe(function (res) {
             if (res['status'] != 'KO') {
-                _this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_0__detail_detail__["a" /* DetailPage */], { bird_id: _this.bird_id });
+                _this.showMessage('El avistamiento se ha guardado');
             }
             else {
                 _this.showError('Ha ocurrido un error al registrar el avistamiento');
@@ -153,10 +153,16 @@ var AddSightingPage = /** @class */ (function () {
         this.loading.present();
     };
     AddSightingPage.prototype.showMessage = function (text) {
+        var _this = this;
         var alert = this.alertCtrl.create({
             title: 'Info',
             subTitle: text,
-            buttons: ['Aceptar']
+            buttons: [{
+                    text: 'Aceptar',
+                    handler: function () {
+                        _this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_0__detail_detail__["a" /* DetailPage */], { bird_id: _this.bird_id });
+                    }
+                }]
         });
         alert.present();
     };
@@ -252,8 +258,7 @@ var AddPage = /** @class */ (function () {
         this.registerBird.lat = this.lat;
         this.birds.addBird(this.registerBird).subscribe(function (res) {
             if (res['status'] != 'KO') {
-                form.reset();
-                _this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_0__list_list__["a" /* ListPage */]);
+                _this.showMessage(form, 'El ave se ha guardado');
             }
             else {
                 _this.showError('Ha ocurrido un error al registrar el ave');
@@ -273,11 +278,18 @@ var AddPage = /** @class */ (function () {
             console.log('Error getting location', err);
         });
     };
-    AddPage.prototype.showMessage = function (text) {
+    AddPage.prototype.showMessage = function (form, text) {
+        var _this = this;
         var alert = this.alertCtrl.create({
             title: 'Info',
             subTitle: text,
-            buttons: ['Aceptar']
+            buttons: [{
+                    text: 'Aceptar',
+                    handler: function () {
+                        form.reset();
+                        _this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_0__list_list__["a" /* ListPage */]);
+                    }
+                }]
         });
         alert.present();
     };
@@ -400,10 +412,9 @@ var LogoutPage = /** @class */ (function () {
         Object(__WEBPACK_IMPORTED_MODULE_2__angular_core__["m" /* Component */])({
             selector: 'page-logout',template:/*ion-inline-start:"/Volumes/MacEXT/Ionic/OrnitologiApp/src/pages/logout/logout.html"*/'<!--\n  Generated template for the LogoutPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>logout</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content padding>\n\n</ion-content>\n'/*ion-inline-end:"/Volumes/MacEXT/Ionic/OrnitologiApp/src/pages/logout/logout.html"*/,
         }),
-        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_3_ionic_angular__["g" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3_ionic_angular__["g" /* NavController */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_3_ionic_angular__["h" /* NavParams */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3_ionic_angular__["h" /* NavParams */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_1__providers_auth_service_auth_service__["a" /* AuthServiceProvider */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__providers_auth_service_auth_service__["a" /* AuthServiceProvider */]) === "function" && _c || Object])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_3_ionic_angular__["g" /* NavController */], __WEBPACK_IMPORTED_MODULE_3_ionic_angular__["h" /* NavParams */], __WEBPACK_IMPORTED_MODULE_1__providers_auth_service_auth_service__["a" /* AuthServiceProvider */]])
     ], LogoutPage);
     return LogoutPage;
-    var _a, _b, _c;
 }());
 
 //# sourceMappingURL=logout.js.map
@@ -843,6 +854,9 @@ var DetailPage = /** @class */ (function () {
         console.log('ionViewDidLoad DetailPage');
         this.getData();
     };
+    DetailPage.prototype.ionViewWillEnter = function () {
+        this.getData();
+    };
     DetailPage.prototype.getData = function () {
         var _this = this;
         this.birds.getOne(this.bird_id)
@@ -866,12 +880,10 @@ var DetailPage = /** @class */ (function () {
         Object(__WEBPACK_IMPORTED_MODULE_2__angular_core__["m" /* Component */])({
             selector: 'page-detail',template:/*ion-inline-start:"/Volumes/MacEXT/Ionic/OrnitologiApp/src/pages/detail/detail.html"*/'<!--\n  Generated template for the DetailPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>Detalle del ave</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n<ion-content padding>\n  <ion-card>\n    <img src="{{ bird.bird_image }}" />\n    <ion-card-content>\n      <ion-card-title>\n        {{ bird.bird_name }}\n      </ion-card-title>\n      <p>\n        {{ bird.bird_description }}\n      </p>\n      <p>Número de avistamientos: <strong>{{ bird.bird_sightings }}</strong></p>\n    </ion-card-content>\n    <ion-row no-padding>\n      <ion-col>\n      </ion-col>\n      <ion-col>\n      </ion-col>\n      <ion-col text-right>\n        <button ion-button clear small color="primary" icon-start (click)="addSighting(bird.id)">\n          <ion-icon name=\'add-circle\'></ion-icon>\n          añadir avistamiento\n        </button>\n      </ion-col>\n    </ion-row>\n  </ion-card>\n\n  <ion-card class="cards-list-demo">\n    <ion-card-header>\n       Listado de avistamientos\n    </ion-card-header>\n    <ion-list>\n      <ion-item *ngFor="let sighting of bird.sightings_list">\n          <h2>{{ sighting.place }}</h2>\n          <p> long: {{ sighting.long }}, lat: {{ sighting.lat }}</p>\n      </ion-item>\n    </ion-list>\n  </ion-card>\n</ion-content>\n'/*ion-inline-end:"/Volumes/MacEXT/Ionic/OrnitologiApp/src/pages/detail/detail.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_3_ionic_angular__["g" /* NavController */],
-            __WEBPACK_IMPORTED_MODULE_3_ionic_angular__["h" /* NavParams */],
-            __WEBPACK_IMPORTED_MODULE_0__providers_birds_service_birds_service__["a" /* BirdsServiceProvider */],
-            __WEBPACK_IMPORTED_MODULE_3_ionic_angular__["f" /* LoadingController */]])
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_3_ionic_angular__["g" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3_ionic_angular__["g" /* NavController */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_3_ionic_angular__["h" /* NavParams */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3_ionic_angular__["h" /* NavParams */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_0__providers_birds_service_birds_service__["a" /* BirdsServiceProvider */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__providers_birds_service_birds_service__["a" /* BirdsServiceProvider */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_3_ionic_angular__["f" /* LoadingController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3_ionic_angular__["f" /* LoadingController */]) === "function" && _d || Object])
     ], DetailPage);
     return DetailPage;
+    var _a, _b, _c, _d;
 }());
 
 //# sourceMappingURL=detail.js.map
@@ -919,6 +931,9 @@ var ListPage = /** @class */ (function () {
         //_________________________TODO
         this.getData(localStorage.getItem('idUser'));
     };
+    ListPage.prototype.ionViewWillEnter = function () {
+        this.getData(localStorage.getItem('idUser'));
+    };
     ListPage.prototype.getData = function (id) {
         var _this = this;
         this.birds.getAll(id)
@@ -951,13 +966,10 @@ var ListPage = /** @class */ (function () {
         Object(__WEBPACK_IMPORTED_MODULE_2__angular_core__["m" /* Component */])({
             selector: 'page-list',template:/*ion-inline-start:"/Volumes/MacEXT/Ionic/OrnitologiApp/src/pages/list/list.html"*/'<ion-header>\n\n  <ion-navbar>\n    <ion-title>Lista de aves</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content padding>\n  <ion-list>\n    <ion-item *ngFor="let bird of list" (click)=\'viewDetail(bird.id)\'>\n        <ion-thumbnail item-start>\n          <img src="{{bird.bird_image }}">\n        </ion-thumbnail>\n         <h2>{{ bird.bird_name }}</h2>\n          <ion-badge *ngIf="bird.mine == 1" color="sightings" item-end>{{ bird.bird_sightings }}</ion-badge>\n          <ion-badge *ngIf="bird.mine == 0" color="no_sightings" item-end>{{ bird.bird_sightings }}</ion-badge>\n    </ion-item>\n  </ion-list>\n</ion-content>\n'/*ion-inline-end:"/Volumes/MacEXT/Ionic/OrnitologiApp/src/pages/list/list.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_3_ionic_angular__["g" /* NavController */],
-            __WEBPACK_IMPORTED_MODULE_3_ionic_angular__["h" /* NavParams */],
-            __WEBPACK_IMPORTED_MODULE_1__providers_birds_service_birds_service__["a" /* BirdsServiceProvider */],
-            __WEBPACK_IMPORTED_MODULE_3_ionic_angular__["a" /* AlertController */],
-            __WEBPACK_IMPORTED_MODULE_3_ionic_angular__["f" /* LoadingController */]])
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_3_ionic_angular__["g" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3_ionic_angular__["g" /* NavController */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_3_ionic_angular__["h" /* NavParams */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3_ionic_angular__["h" /* NavParams */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_1__providers_birds_service_birds_service__["a" /* BirdsServiceProvider */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__providers_birds_service_birds_service__["a" /* BirdsServiceProvider */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_3_ionic_angular__["a" /* AlertController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3_ionic_angular__["a" /* AlertController */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_3_ionic_angular__["f" /* LoadingController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3_ionic_angular__["f" /* LoadingController */]) === "function" && _e || Object])
     ], ListPage);
     return ListPage;
+    var _a, _b, _c, _d, _e;
 }());
 
 //# sourceMappingURL=list.js.map
@@ -1009,7 +1021,7 @@ var LoginPage = /** @class */ (function () {
         this.showLoading();
         this.auth.login(this.registerCredentials).subscribe(function (allowed) {
             if (allowed) {
-                _this.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_0__tab_menu_tab_menu__["a" /* TabMenuPage */]);
+                _this.showMessage('Bienvenido ' + _this.registerCredentials.name);
             }
             else {
                 _this.showError("Acceso denegado");
@@ -1025,6 +1037,20 @@ var LoginPage = /** @class */ (function () {
         });
         this.loading.present();
     };
+    LoginPage.prototype.showMessage = function (text) {
+        var _this = this;
+        var alert = this.alertCtrl.create({
+            title: 'Info',
+            subTitle: text,
+            buttons: [{
+                    text: 'Aceptar',
+                    handler: function () {
+                        _this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_0__tab_menu_tab_menu__["a" /* TabMenuPage */]);
+                    }
+                }]
+        });
+        alert.present();
+    };
     LoginPage.prototype.showError = function (text) {
         this.loading.dismiss();
         var alert = this.alertCtrl.create({
@@ -1038,9 +1064,10 @@ var LoginPage = /** @class */ (function () {
         Object(__WEBPACK_IMPORTED_MODULE_2__angular_core__["m" /* Component */])({
             selector: 'page-login',template:/*ion-inline-start:"/Volumes/MacEXT/Ionic/OrnitologiApp/src/pages/login/login.html"*/'<!--\n  Generated template for the LoginPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n\n\n<ion-content padding>\n  <ion-row>\n    <ion-col>\n      <img src="assets/imgs/logo_black.png">\n    </ion-col>\n  </ion-row>\n  <div>\n    <form (ngSubmit)="login()" #registerForm="ngForm">\n      <ion-row>\n        <ion-col>\n          <ion-list inset>\n            <ion-item>\n              <ion-label floating>Usuario</ion-label>\n              <ion-input type="text" name="user" [(ngModel)]="registerCredentials.name" required></ion-input>\n            </ion-item>\n\n            <ion-item>\n              <ion-label floating>Contraseña</ion-label>\n              <ion-input type="password" name="password" [(ngModel)]="registerCredentials.password" required></ion-input>\n            </ion-item>\n          </ion-list>\n        </ion-col>\n      </ion-row>\n\n      <ion-row>\n        <ion-col>\n          <button ion-button class="submit-btn" full type="submit" [disabled]="!registerForm.form.valid">Iniciar sesión</button>\n        </ion-col>\n      </ion-row>\n    </form>\n  </div>\n</ion-content>\n'/*ion-inline-end:"/Volumes/MacEXT/Ionic/OrnitologiApp/src/pages/login/login.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_3_ionic_angular__["g" /* NavController */], __WEBPACK_IMPORTED_MODULE_3_ionic_angular__["h" /* NavParams */], __WEBPACK_IMPORTED_MODULE_1__providers_auth_service_auth_service__["a" /* AuthServiceProvider */], __WEBPACK_IMPORTED_MODULE_3_ionic_angular__["a" /* AlertController */], __WEBPACK_IMPORTED_MODULE_3_ionic_angular__["f" /* LoadingController */]])
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_3_ionic_angular__["g" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3_ionic_angular__["g" /* NavController */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_3_ionic_angular__["h" /* NavParams */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3_ionic_angular__["h" /* NavParams */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_1__providers_auth_service_auth_service__["a" /* AuthServiceProvider */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__providers_auth_service_auth_service__["a" /* AuthServiceProvider */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_3_ionic_angular__["a" /* AlertController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3_ionic_angular__["a" /* AlertController */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_3_ionic_angular__["f" /* LoadingController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3_ionic_angular__["f" /* LoadingController */]) === "function" && _e || Object])
     ], LoginPage);
     return LoginPage;
+    var _a, _b, _c, _d, _e;
 }());
 
 //# sourceMappingURL=login.js.map

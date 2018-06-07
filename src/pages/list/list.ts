@@ -30,6 +30,9 @@ export class ListPage {
     //_________________________TODO
     this.getData(localStorage.getItem('idUser'));
   }
+  ionViewWillEnter() {
+    this.getData(localStorage.getItem('idUser'));
+  }
 
   getData(id){
     this.birds.getAll(id)

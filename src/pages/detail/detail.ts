@@ -30,6 +30,10 @@ export class DetailPage {
     this.getData();
   }
 
+  ionViewWillEnter(){
+    this.getData();
+  }
+
   private getData(){
     this.birds.getOne(this.bird_id)
       .subscribe(

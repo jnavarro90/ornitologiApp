@@ -45,7 +45,7 @@ export class AddSightingPage {
     this.birds.addSighting(this.registerSighting).subscribe(
       res => {
         if (res['status'] != 'KO') {
-          this.navCtrl.push(DetailPage, {bird_id: this.bird_id});
+          this.showMessage('El avistamiento se ha guardado');
         } else {
           this.showError('Ha ocurrido un error al registrar el avistamiento');
         }
@@ -67,7 +67,12 @@ export class AddSightingPage {
     let alert = this.alertCtrl.create({
       title: 'Info',
       subTitle: text,
-      buttons: ['Aceptar']
+      buttons: [{
+        text: 'Aceptar',
+        handler: () => {
+          this.navCtrl.push(DetailPage, { bird_id: this.bird_id });
+        }
+      }]
     });
     alert.present();
   }

@@ -64,8 +64,7 @@ export class AddPage {
     this.birds.addBird(this.registerBird).subscribe(
       res => {
         if (res['status'] != 'KO') {
-          form.reset();
-          this.navCtrl.push(ListPage);
+          this.showMessage(form, 'El ave se ha guardado');
         } else {
           this.showError('Ha ocurrido un error al registrar el ave');
         }
@@ -87,11 +86,17 @@ export class AddPage {
     });
   }
 
-  showMessage(text)  {
+  showMessage(form, text)  {
     let alert = this.alertCtrl.create({
       title: 'Info',
       subTitle: text,
-      buttons: ['Aceptar']
+      buttons: [{
+        text: 'Aceptar',
+        handler: () => {
+          form.reset();
+          this.navCtrl.push(ListPage);
+        }
+      }]
     });
     alert.present();
   }

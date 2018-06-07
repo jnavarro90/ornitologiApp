@@ -31,7 +31,7 @@ export class LoginPage {
     this.auth.login(this.registerCredentials).subscribe(
       allowed => {
         if (allowed) {
-          this.navCtrl.setRoot(TabMenuPage);
+          this.showMessage('Bienvenido ' + this.registerCredentials.name);
         } else {
           this.showError("Acceso denegado");
         }
@@ -47,6 +47,20 @@ export class LoginPage {
       dismissOnPageChange: true
     });
     this.loading.present();
+  }
+
+  showMessage(text) {
+    let alert = this.alertCtrl.create({
+      title: 'Info',
+      subTitle: text,
+      buttons: [{
+        text: 'Aceptar',
+        handler: () => {
+          this.navCtrl.push(TabMenuPage);
+        }
+      }]
+    });
+    alert.present();
   }
 
   showError(text) {
