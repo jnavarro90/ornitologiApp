@@ -49,11 +49,11 @@ Para los alumnos del Máster Universitario de Desarrollo de Aplicaciones para Di
   - Usuario: **Javier**
   - Contraseña: **Navarro**
 
-- Se han cambiado cosas para utilizar los máximos estilos posibles como, usar tags con colores para los avistamientos, cambiar los colores de los botones y la barra de tabs con unos colores marrones y blancos, e ir cambiando el estilo de las páginas con cols y rows para que se vieran bien no importando el tamaño de pantalla.
+- Se han cambiado cosas para utilizar los máximos estilos posibles como, usar tags con colores para los avistamientos, cambiar los colores de los botones y la barra de tabs con unos colores marrones y blancos, e ir cambiando el estilo de las páginas con cols y rows para que se vieran bien no importando el tamaño de pantalla y despues de recibir los criterios de corrección de la PEC 3 de la misma asignatura se añadieron más colores para cada sección y algunos cambios visuales en la pantalla de detalle del ave.
 
 - Para compartirlo con los profesores se uso lo que se hizo en la pec3 de esta misma asignatura.
   - Se subio a codelabs comparteindolo con los profesores.
   - Se subió a ionic view para poder visualizarlo con un código en la app de ionic view, el código para esta app es el siguiente: 
 ```
-                      ecd3cc94
+ecd3cc94
 ```
